@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just a Few Questions...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #question-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+        button {
+            margin: 10px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            position: relative;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #question {
+            transition: opacity 0.5s ease-in-out;
+        }
+        @media (max-width: 400px) {
+            body {
+                padding: 10px;
+            }
+            button {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="question-box">
+        <h2 id="question">Would you like to be my dear friend?</h2>
+        <button onclick="nextQuestion(true)">Yes</button>
+        <button id="no-button" onmouseover="moveButton()">No</button>
+    </div>
+
+    <script>
+        let stage = 1;
+        const convinceMessages = [
+            "Please reconsider &#128519;, I promise I'll do better!",
+            "Your friendship means a lot to me &#128591;&#10084;. Please say yes!",
+            "I truly value you &#128151;. Won't you give me another chance?"
+        ];
+        let convinceIndex = 0;
+
+        function nextQuestion(answer) {
+            if (!answer) return;
+
+            if (stage === 1) {
+                stage = 2;
+                document.getElementById("question").innerHTML = "Thanks girl &#9786;&#65039;! I often disappoint things but can I make it up to you?";
+                let noBtn = document.getElementById("no-button");
+                noBtn.removeAttribute("onmouseover");
+                noBtn.setAttribute("onclick", "convince()");
+            } else if (stage === 2) {
+                stage = 3;
+                document.getElementById("question-box").innerHTML = `
+                    <h2>Here's a yellow rose for you! &#127801;</h2>
+                    <img src="https://media.giphy.com/media/5UI3clDlPShYOgk7lc/giphy.gif" style="max-width:100%; border-radius:10px;">
+                    <br><br>
+                    <button onclick="nextQuestion(true)">Next</button>
+                `;
+            } else if (stage === 3) {
+                stage = 4;
+                document.getElementById("question-box").innerHTML = `
+                    <h2>Last time, you treated me to tea &#9749;&#128155;. Now, it's my turn! Can we make a lovely tea-time memory together? &#129392;</h2>
+                    <p>I promise the tea will be extra special this time! &#127861;&#10024;</p>
+                    <button onclick="nextQuestion(true)">Yes</button>
+                    <button onclick="nextQuestion(false)">No</button>
+                `;
+            } else if (stage === 4) {
+                stage = 5;
+                document.getElementById("question-box").innerHTML = `
+                    <h2>No worries! But just so you know... I am very patient and very *annoying* &#128540;&#9749;</h2>
+                    <p>So, expect cute reminders until we finally have that tea together! &#128518;&#128150;</p>
+                    <button onclick="finalResponse()">Okay, okay! Tea it is! &#128516;</button>
+                `;
+            }
+        }
+
+        function moveButton() {
+            const noButton = document.getElementById("no-button");
+            const maxX = window.innerWidth - 150;
+            const maxY = window.innerHeight - 100;
+            const randomX = Math.max(10, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(10, Math.floor(Math.random() * maxY));
+            noButton.style.position = "absolute";
+            noButton.style.left = `${randomX}px`;
+            noButton.style.top = `${randomY}px`;
+        }
+
+        function convince() {
+            const questionElement = document.getElementById("question");
+            questionElement.innerHTML = convinceMessages[convinceIndex];
+            convinceIndex = (convinceIndex + 1) % convinceMessages.length;
+        }
+
+        function finalResponse() {
+            document.getElementById("question-box").innerHTML = "<h2>Heer trust me I have no intentions to annoy you. But aap mummy ho na mere to iske liye automatically annoying ban jata hu. &#128517;&#128151;</h2>";
+        }
+    </script>
+</body>
+</html>
